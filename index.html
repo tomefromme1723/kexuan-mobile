@@ -29,15 +29,19 @@ body::before{content:"";position:fixed;inset:0;background:radial-gradient(circle
 /* ---------- 3D phone ---------- */
 .scaler{transform-origin:center center}
 .tilt{perspective:1500px}
-.phone{position:relative;width:236px;height:580px;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;transform:rotateX(var(--rx)) rotateY(var(--ry));transition:transform .25s ease-out}
-.lid{position:absolute;left:0;top:0;width:236px;height:280px;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;transform-origin:50% 100% 7px;transition:transform 1s cubic-bezier(.5,1.5,.45,1);z-index:3}
+.phone{position:relative;width:236px;height:580px;perspective:1100px;transform:rotateX(var(--rx)) rotateY(var(--ry));transition:transform .25s ease-out}
+.lid{position:absolute;left:0;top:0;width:236px;height:280px;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;transform-origin:50% 100%;transition:transform .85s cubic-bezier(.3,1.35,.5,1);z-index:3}
+.phone.closing .lid{transition:transform .42s cubic-bezier(.6,.02,.95,.45)}
+.tilt.snap{animation:snap .2s ease-out}
+.phone.covered .keys{visibility:hidden}
+@keyframes snap{0%{transform:translateY(0)}35%{transform:translateY(4px) scale(.995)}100%{transform:translateY(0)}}
 .phone.closed .lid{transform:rotateX(-180deg)}
 .slices{position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none}.slice{position:absolute;inset:0;pointer-events:none}
 .lid .slice{border-radius:34px 34px 14px 14px;background:linear-gradient(180deg,#b9bcc4,#7d808a)}
 .lid .slice.r{background:linear-gradient(180deg,var(--red-d),var(--red-dd))}
 .face{position:absolute;inset:0;border-radius:34px 34px 14px 14px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.front{transform:translateZ(7px);background:linear-gradient(160deg,#F7F7F9 0%,#CDD0D7 50%,#9EA1AB 100%);box-shadow:inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25)}
-.back{transform:rotateX(180deg) translateZ(7px);border-radius:14px 14px 34px 34px;cursor:pointer;overflow:hidden;
+.front{transform:rotateX(0deg);background:linear-gradient(160deg,#F7F7F9 0%,#CDD0D7 50%,#9EA1AB 100%);box-shadow:inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.25)}
+.back{transform:rotateX(180deg);border-radius:14px 14px 34px 34px;cursor:pointer;overflow:hidden;
   background:radial-gradient(120% 70% at 30% 15%, var(--red-l) 0%, var(--red) 45%, var(--red-d) 100%);box-shadow:inset 0 3px 0 rgba(255,255,255,.5), inset 0 -8px 14px rgba(0,0,0,.28)}
 .gloss::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
   background:linear-gradient(115deg,transparent 0 calc(var(--gx) - 18%),rgba(255,255,255,.42) var(--gx),transparent calc(var(--gx) + 14%))}
@@ -66,15 +70,15 @@ body::before{content:"";position:fixed;inset:0;background:radial-gradient(circle
   -webkit-mask:radial-gradient(circle,#000 0 30%,transparent 62%);mask:radial-gradient(circle,#000 0 30%,transparent 62%);animation:twinkle 2.4s ease-in-out infinite;animation-delay:var(--d,0s);opacity:0}
 @keyframes twinkle{0%,70%,100%{opacity:0;transform:scale(.4) rotate(0)}82%{opacity:1;transform:scale(1) rotate(45deg)}}
 
-.hinge{position:absolute;left:22px;top:268px;width:192px;height:26px;border-radius:13px;transform:translateZ(7px);z-index:2;
+.hinge{position:absolute;left:22px;top:268px;width:192px;height:26px;border-radius:13px;z-index:2;
   background:linear-gradient(180deg,#fafafa 0%,#bfc2c9 40%,#7d808a 75%,#a8abb3 100%);box-shadow:0 3px 5px rgba(0,0,0,.35)}
-.base{position:absolute;left:0;top:282px;width:236px;height:290px;transform-style:preserve-3d;z-index:1}
+.base{position:absolute;left:0;top:282px;width:236px;height:290px;z-index:1}
 .base .slice{border-radius:14px 14px 38px 38px;background:linear-gradient(180deg,var(--red-d),var(--red-dd))}
-.bface{position:absolute;inset:0;transform:translateZ(7px);border-radius:14px 14px 38px 38px;
+.bface{position:absolute;inset:0;border-radius:14px 14px 38px 38px;
   background:radial-gradient(120% 80% at 30% 0%, var(--red-l) 0%, var(--red) 40%, var(--red-d) 100%);
   box-shadow:inset 0 3px 0 rgba(255,255,255,.4), inset 0 -8px 14px rgba(0,0,0,.28)}
 .tilt{position:relative}.shadow{position:absolute;left:24px;width:200px;top:556px;height:34px;border-radius:50%;background:rgba(0,0,0,.25);filter:blur(12px);pointer-events:none}
-.phone.closed .keys{visibility:hidden}
+
 .keys{position:absolute;left:16px;right:16px;top:22px}
 .row{display:flex;justify-content:space-between;align-items:center}
 button.k{font-family:inherit;border:none;cursor:pointer;color:var(--ink);background:linear-gradient(180deg,#fff 0%,#E9D9B4 100%);box-shadow:0 3px 0 #8a7a55, 0 4px 3px rgba(0,0,0,.25), inset 0 1px 0 #fff;border-radius:12px;transition:transform .05s}
@@ -149,7 +153,7 @@ canvas.wall{position:absolute;inset:0;width:100%;height:100%;image-rendering:pix
 <div class="stage">
  <div class="scaler" id="scaler"><div class="tilt" id="tilt">
   <div class="shadow"></div>
-  <div class="phone closed" id="phone">
+  <div class="phone closed covered" id="phone">
     <div class="lid" id="lid">
       
       <div class="face front gloss">
@@ -310,7 +314,10 @@ function key(k){
 }
 document.querySelectorAll('[data-key]').forEach((b) => b.addEventListener('click', (e) => { e.stopPropagation(); key(b.dataset.key); }));
 function swing(){ charm.classList.remove('swing'); void charm.offsetWidth; charm.classList.add('swing'); }
-function setClosed(c){ phone.classList.toggle('closed', c); swing(); flipSound(!c); $('#toggle').textContent = c ? '翻开手机' : '合上手机';
+let snapT = null;
+function setClosed(c){ clearTimeout(snapT); phone.classList.toggle('closing', c); phone.classList.toggle('closed', c); $('#toggle').textContent = c ? '翻开手机' : '合上手机';
+  if (c) { snapT = setTimeout(() => { phone.classList.add('covered'); const t = $('#tilt'); t.classList.remove('snap'); void t.offsetWidth; t.classList.add('snap'); swing(); tone([180, 90], .05, 'square', .09); tone([2600], .02, 'square', .05, .01); }, 400); }
+  else { phone.classList.remove('covered'); swing(); flipSound(true); }
   if (c) { view = 'off'; screen.innerHTML = ''; } else { if (document.activeElement) document.activeElement.blur(); view = 'boot'; render(); setTimeout(jingle, 250); setTimeout(() => { view = 'home'; render(); }, 1700); } }
 backEl.addEventListener('click', () => setClosed(false));
 backEl.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && phone.classList.contains('closed')) { e.preventDefault(); e.stopPropagation(); setClosed(false); } });
